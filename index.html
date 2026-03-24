@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>aicoffeechat — Real-Time Conversational AI Observability</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+</head>
+<body class="bg-[#09090F] text-[#F8F7FF] font-sans antialiased selection:bg-indigo-500/30 overflow-x-hidden relative">
+
+    <!-- Global Noise Texture -->
+    <div class="fixed inset-0 z-0 pointer-events-none opacity-[0.04]" style="background-image: url('data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/2000/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.85%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E');"></div>
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 inset-x-0 z-50 bg-[#09090F]/70 backdrop-blur-xl border-b border-white/[0.08]">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 font-medium tracking-tight text-lg z-10">
+                <div class="w-6 h-6 rounded-md bg-gradient-to-tr from-indigo-500 to-violet-400 flex items-center justify-center shadow-[0_0_15px_rgba(99,102,241,0.4)]">
+                    <iconify-icon icon="solar:cup-hot-linear" class="text-white text-xs" style="stroke-width: 1.5;"></iconify-icon>
+                </div>
+                aicoffeechat
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#features" class="text-sm font-normal text-white/50 hover:text-white transition-colors relative group">
+                    Features
+                    <span class="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-indigo-500 to-violet-400 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#platform" class="text-sm font-normal text-white/50 hover:text-white transition-colors relative group">
+                    Platform
+                    <span class="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-indigo-500 to-violet-400 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#pricing" class="text-sm font-normal text-white/50 hover:text-white transition-colors relative group">
+                    Pricing
+                    <span class="absolute -bottom-1 left-0 w-0 h-px bg-gradient-to-r from-indigo-500 to-violet-400 transition-all group-hover:w-full"></span>
+                </a>
+                <a href="#" class="text-sm font-normal text-white/50 hover:text-white transition-colors relative group">
+                    Docs
+                </a>
+            </div>
+            <div class="flex items-center gap-4 z-10">
+                <button class="hidden md:block text-sm font-normal text-white/50 hover:text-white transition-colors px-4 py-2 rounded-lg border border-transparent hover:border-white/10 hover:bg-white/5">Sign in</button>
+                <button class="flex items-center gap-2 bg-gradient-to-br from-indigo-500 to-violet-600 text-white px-5 py-2.5 rounded-xl text-sm font-light shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all hover:-translate-y-px">
+                    Start Free
+                    <iconify-icon icon="solar:arrow-right-linear" style="stroke-width: 1.5;"></iconify-icon>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="relative pt-32 pb-20 md:pt-48 md:pb-32 px-6 flex flex-col items-center justify-center text-center overflow-hidden min-h-screen">
+        <!-- Background Gradients -->
+        <div class="absolute inset-0 z-0">
+            <div class="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-indigo-500/10 rounded-full blur-[100px]"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-violet-500/10 rounded-full blur-[100px]"></div>
+            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#09090F]/50 to-[#09090F]"></div>
+        </div>
+
+        <div class="relative z-10 max-w-4xl mx-auto flex flex-col items-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-indigo-500/10 border border-indigo-500/20 text-xs font-normal text-indigo-200 mb-8 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
+                <span class="w-2 h-2 rounded-full bg-indigo-400 shadow-[0_0_8px_rgba(99,102,241,0.8)] relative" style="animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;">
+                    <style>@keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: .5; transform: scale(1.5); } }</style>
+                </span>
+                <span class="font-semibold text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-300 uppercase tracking-widest text-[10px]">New</span>
+                Real-time conversational anomaly detection →
+            </div>
+            
+            <h1 class="text-4xl md:text-6xl lg:text-7xl font-extralight tracking-tight leading-[1.1] mb-6">
+                Find the signal through<br>
+                the <span class="font-light text-white drop-shadow-[0_0_30px_rgba(165,180,252,0.6)]">noise</span> — before it's too late
+            </h1>
+            
+            <p class="text-base md:text-lg font-light text-white/60 max-w-xl mx-auto mb-10 leading-relaxed">
+                Full-stack observability for LLM and chat applications. Spot hallucination patterns, latency spikes, and context drops before they cascade.
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+                <button class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white/[0.08] backdrop-blur-xl border border-indigo-300/30 text-white text-sm font-light shadow-[0_0_40px_rgba(99,102,241,0.2),inset_0_1px_0_rgba(255,255,255,0.2)] hover:bg-white/[0.12] hover:border-indigo-300/50 hover:-translate-y-0.5 transition-all duration-300 group">
+                    Start for free
+                    <iconify-icon icon="solar:arrow-right-linear" class="group-hover:translate-x-1 transition-transform" style="stroke-width: 1.5;"></iconify-icon>
+                </button>
+                <button class="w-full sm:w-auto flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white/[0.02] backdrop-blur-md border border-white/10 text-white/70 text-sm font-light hover:bg-white/[0.05] hover:text-white transition-all duration-300 group">
+                    Watch demo
+                    <iconify-icon icon="solar:play-circle-linear" class="group-hover:scale-110 transition-transform" style="stroke-width: 1.5;"></iconify-icon>
+                </button>
+            </div>
+        </div>
+
+        <!-- Floating Stats -->
+        <div class="relative z-10 mt-16 flex flex-col sm:flex-row w-full max-w-4xl mx-auto rounded-2xl border border-white/10 overflow-hidden bg-white/[0.01] backdrop-blur-md divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+            <div class="flex-1 p-4 md:p-6 text-center sm:text-left flex sm:flex-col items-center sm:items-start justify-between sm:justify-center">
+                <div class="text-xl md:text-2xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300">99.99</div>
+                <div class="text-xs font-mono text-white/40 uppercase tracking-widest mt-1">Uptime SLA</div>
+            </div>
+            <div class="flex-1 p-4 md:p-6 text-center sm:text-left flex sm:flex-col items-center sm:items-start justify-between sm:justify-center">
+                <div class="text-xl md:text-2xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300">42ms</div>
+                <div class="text-xs font-mono text-white/40 uppercase tracking-widest mt-1">TTFT Latency</div>
+            </div>
+            <div class="flex-1 p-4 md:p-6 text-center sm:text-left flex sm:flex-col items-center sm:items-start justify-between sm:justify-center">
+                <div class="text-xl md:text-2xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300">850B+</div>
+                <div class="text-xs font-mono text-white/40 uppercase tracking-widest mt-1">Tokens / day</div>
+            </div>
+            <div class="flex-1 p-4 md:p-6 text-center sm:text-left flex sm:flex-col items-center sm:items-start justify-between sm:justify-center">
+                <div class="text-xl md:text-2xl font-semibold tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300">12K+</div>
+                <div class="text-xs font-mono text-white/40 uppercase tracking-widest mt-1">AI Devs trust us</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Logo Strip -->
+    <div class="border-y border-white/[0.05] py-10 relative overflow-hidden bg-[#09090F]">
+        <div class="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-[#09090F] to-transparent z-10"></div>
+        <div class="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-[#09090F] to-transparent z-10"></div>
+        <div class="text-center text-xs font-mono text-white/30 uppercase tracking-[0.15em] mb-6">Powering chat infrastructure at</div>
+        <div class="flex gap-16 items-center w-max px-10" style="animation: scroll 30s linear infinite;">
+            <style>@keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }</style>
+            <!-- Duplicated for seamless loop -->
+            <div class="flex gap-16 items-center">
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">OpenAI</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Anthropic</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Cohere</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Perplexity</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Midjourney</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">HuggingFace</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Scale</span>
+            </div>
+            <div class="flex gap-16 items-center">
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">OpenAI</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Anthropic</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Cohere</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Perplexity</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Midjourney</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">HuggingFace</span>
+                <span class="font-medium tracking-tight text-lg text-white/20 hover:text-white/40 transition-colors cursor-default">Scale</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Features Bento Section -->
+    <section id="features" class="py-24 px-6 relative">
+        <div class="max-w-6xl mx-auto">
+            <div class="text-center mb-16">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-semibold text-indigo-300 uppercase tracking-widest font-mono mb-6">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Capabilities
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extralight tracking-tight mb-4">
+                    Everything your <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-400">LLM tries to tell you</span>
+                </h2>
+                <p class="text-sm md:text-base font-light text-white/50 max-w-2xl mx-auto">
+                    One unified view of token metrics, chat logs, tool calls, and generation traces — correlated automatically so you never miss a hallucination.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+                
+                <!-- Card 1: Wide -->
+                <div class="md:col-span-2 relative p-8 rounded-[2rem] bg-gradient-to-br from-indigo-500/[0.04] to-black border border-white/[0.06] backdrop-blur-xl overflow-hidden group hover:-translate-y-1 transition-all duration-300 hover:border-indigo-500/30 hover:shadow-[0_20px_40px_-20px_rgba(99,102,241,0.15)]">
+                    <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute top-6 right-6 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-green-500/10 border border-green-500/20 text-[10px] font-mono text-green-400 z-10">
+                        <span class="w-1.5 h-1.5 rounded-full bg-green-400 shadow-[0_0_5px_rgba(34,197,94,0.8)]"></span> 847K req/s
+                    </div>
+                    
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6 relative z-10">
+                        <iconify-icon icon="solar:bolt-linear" class="text-2xl text-indigo-300" style="stroke-width: 1.5;"></iconify-icon>
+                    </div>
+                    <h3 class="text-xl font-light tracking-tight mb-2 relative z-10">Real-Time Generation Streaming</h3>
+                    <p class="text-sm font-light text-white/50 max-w-md relative z-10 leading-relaxed mb-6">
+                        Ingest millions of chat events per second from any provider. Zero-copy ingestion with sub-millisecond overhead to your LLM calls.
+                    </p>
+                    
+                    <div class="relative z-10 bg-black/50 border border-white/[0.06] rounded-xl p-4 font-mono text-[11px] leading-loose">
+                        <div class="flex gap-1.5 mb-3">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500/80"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500/80"></div>
+                        </div>
+                        <div class="text-indigo-400">$ aicoffeechat ingest --stream production</div>
+                        <div class="text-green-400/80 pl-4">✓ Connected to stream [production] · 847K events/s</div>
+                        <div class="text-green-400/80 pl-4">✓ Context model loaded · avg TTFT: 42ms</div>
+                        <div class="text-yellow-400/80 pl-4">⚡ Alert: Token generation spike in chat-gateway [3σ]</div>
+                        <div class="text-white/60 pl-4">→ Root cause: recursive tool call detected</div>
+                    </div>
+                </div>
+
+                <!-- Card 2: Tall -->
+                <div class="md:row-span-2 flex flex-col relative p-8 rounded-[2rem] bg-gradient-to-br from-indigo-500/[0.04] to-black border border-white/[0.06] backdrop-blur-xl overflow-hidden group hover:-translate-y-1 transition-all duration-300 hover:border-indigo-500/30 hover:shadow-[0_20px_40px_-20px_rgba(99,102,241,0.15)]">
+                    <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute top-6 right-6 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-yellow-500/10 border border-yellow-500/20 text-[10px] font-mono text-yellow-400 z-10">
+                        <span class="w-1.5 h-1.5 rounded-full bg-yellow-400"></span> 3 Anomalies
+                    </div>
+
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6 relative z-10">
+                        <iconify-icon icon="solar:magic-stick-3-linear" class="text-2xl text-indigo-300" style="stroke-width: 1.5;"></iconify-icon>
+                    </div>
+                    <h3 class="text-xl font-light tracking-tight mb-2 relative z-10">Semantic Anomaly AI</h3>
+                    <p class="text-sm font-light text-white/50 relative z-10 leading-relaxed mb-8">
+                        Adaptive ML evaluates chat intent and context. Detect multi-variate anomalies like topic drift or sudden sentiment drops with near-zero false positives.
+                    </p>
+
+                    <div class="flex-1 flex flex-col gap-2 relative z-10 min-h-[200px]">
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                            <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-red-500"></span><span class="text-xs text-white/60">hallucination · sales-bot</span></div>
+                            <span class="text-[10px] font-mono text-red-400/80">4.8σ</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                            <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-yellow-500"></span><span class="text-xs text-white/60">latency · rag-pipeline</span></div>
+                            <span class="text-[10px] font-mono text-yellow-400/80">3.2σ</span>
+                        </div>
+                        <div class="flex items-center justify-between p-3 rounded-lg bg-white/[0.02] border border-white/[0.04]">
+                            <div class="flex items-center gap-2"><span class="w-1.5 h-1.5 rounded-full bg-green-500"></span><span class="text-xs text-white/60">cost/token · gpt-4</span></div>
+                            <span class="text-[10px] font-mono text-green-400/80">resolved</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-auto pt-4 border-t border-white/[0.06] relative z-10">
+                        <div class="flex justify-between text-[10px] font-mono text-white/40 mb-2">
+                            <span>Semantic confidence</span>
+                            <span class="text-indigo-300">97.3%</span>
+                        </div>
+                        <div class="h-1 bg-white/[0.05] rounded-full overflow-hidden">
+                            <div class="h-full w-[97.3%] bg-gradient-to-r from-indigo-500 to-violet-400 rounded-full"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="relative p-8 rounded-[2rem] bg-gradient-to-br from-indigo-500/[0.04] to-black border border-white/[0.06] backdrop-blur-xl overflow-hidden group hover:-translate-y-1 transition-all duration-300 hover:border-indigo-500/30 hover:shadow-[0_20px_40px_-20px_rgba(99,102,241,0.15)]">
+                    <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6 relative z-10">
+                        <iconify-icon icon="solar:route-linear" class="text-2xl text-indigo-300" style="stroke-width: 1.5;"></iconify-icon>
+                    </div>
+                    <h3 class="text-xl font-light tracking-tight mb-2 relative z-10">Agentic Tracing</h3>
+                    <p class="text-sm font-light text-white/50 relative z-10 leading-relaxed mb-6">
+                        End-to-end trace visualization across agent steps. Pinpoint slow tool calls or vector DB latency with waterfall graphs.
+                    </p>
+
+                    <div class="flex flex-col gap-1.5 relative z-10">
+                        <div class="flex items-center gap-2 text-[10px] font-mono">
+                            <span class="text-white/40 w-16 text-right">user-msg</span>
+                            <div class="flex-1 h-2 bg-white/[0.03] rounded-full overflow-hidden relative"><div class="absolute inset-y-0 left-0 w-full bg-gradient-to-r from-indigo-500/60 to-indigo-500/20 rounded-full"></div></div>
+                            <span class="text-white/40 w-10">8ms</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] font-mono">
+                            <span class="text-white/40 w-16 text-right">embed</span>
+                            <div class="flex-1 h-2 bg-white/[0.03] rounded-full overflow-hidden relative"><div class="absolute inset-y-0 left-[5%] w-[30%] bg-gradient-to-r from-violet-500/50 to-violet-500/20 rounded-full"></div></div>
+                            <span class="text-white/40 w-10">45ms</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] font-mono">
+                            <span class="text-white/40 w-16 text-right">pinecone</span>
+                            <div class="flex-1 h-2 bg-white/[0.03] rounded-full overflow-hidden relative"><div class="absolute inset-y-0 left-[20%] w-[40%] bg-gradient-to-r from-green-500/50 to-green-500/20 rounded-full"></div></div>
+                            <span class="text-white/40 w-10">112ms</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-[10px] font-mono">
+                            <span class="text-white/40 w-16 text-right">gpt-4-gen</span>
+                            <div class="flex-1 h-2 bg-white/[0.03] rounded-full overflow-hidden relative"><div class="absolute inset-y-0 left-[60%] w-[40%] bg-gradient-to-r from-zinc-300/40 to-zinc-300/10 rounded-full"></div></div>
+                            <span class="text-white/40 w-10">840ms</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="relative p-8 rounded-[2rem] bg-gradient-to-br from-indigo-500/[0.04] to-black border border-white/[0.06] backdrop-blur-xl overflow-hidden group hover:-translate-y-1 transition-all duration-300 hover:border-indigo-500/30 hover:shadow-[0_20px_40px_-20px_rgba(99,102,241,0.15)]">
+                    <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6 relative z-10">
+                        <iconify-icon icon="solar:bell-bing-linear" class="text-2xl text-indigo-300" style="stroke-width: 1.5;"></iconify-icon>
+                    </div>
+                    <h3 class="text-xl font-light tracking-tight mb-2 relative z-10">Predictive Rate Limits</h3>
+                    <p class="text-sm font-light text-white/50 relative z-10 leading-relaxed mb-6">
+                        Get notified before OpenAI thresholds breach. Forecasting models predict rate limit hits 15–30 minutes ahead.
+                    </p>
+                    
+                    <div class="relative h-20 border-b border-white/[0.05] flex items-end justify-between px-2 pb-2 mt-auto">
+                        <div class="absolute top-1/2 inset-x-0 border-t border-dashed border-red-500/30"></div>
+                        <div class="w-2 bg-indigo-500/20 rounded-t-sm h-[30%]"></div>
+                        <div class="w-2 bg-indigo-500/30 rounded-t-sm h-[40%]"></div>
+                        <div class="w-2 bg-indigo-500/40 rounded-t-sm h-[35%]"></div>
+                        <div class="w-2 bg-indigo-500/50 rounded-t-sm h-[60%]"></div>
+                        <div class="w-2 bg-indigo-500/60 rounded-t-sm h-[55%]"></div>
+                        <div class="w-2 bg-violet-500/80 rounded-t-sm h-[80%] relative"><span class="absolute -top-1.5 -right-1 w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)]"></span></div>
+                        <div class="w-2 border border-dashed border-white/20 rounded-t-sm h-[90%]"></div>
+                        <div class="w-2 border border-dashed border-white/20 rounded-t-sm h-[100%]"></div>
+                    </div>
+                </div>
+
+                <!-- Card 5: Full -->
+                <div class="md:col-span-3 grid md:grid-cols-5 gap-8 items-center relative p-8 rounded-[2rem] bg-gradient-to-br from-indigo-500/[0.04] to-black border border-white/[0.06] backdrop-blur-xl overflow-hidden group hover:-translate-y-1 transition-all duration-300 hover:border-indigo-500/30 hover:shadow-[0_20px_40px_-20px_rgba(99,102,241,0.15)]">
+                    <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    
+                    <div class="md:col-span-2 relative z-10">
+                        <div class="w-12 h-12 rounded-xl bg-indigo-500/10 border border-indigo-500/20 flex items-center justify-center mb-6">
+                            <iconify-icon icon="solar:widget-add-linear" class="text-2xl text-indigo-300" style="stroke-width: 1.5;"></iconify-icon>
+                        </div>
+                        <h3 class="text-xl font-light tracking-tight mb-2">Native Model Integrations</h3>
+                        <p class="text-sm font-light text-white/50 leading-relaxed">
+                            Connect in minutes with OpenAI, Anthropic, LangChain, LlamaIndex, Pinecone, and every tool in your AI stack. No custom parsers needed.
+                        </p>
+                    </div>
+                    
+                    <div class="md:col-span-3 flex flex-wrap gap-2 relative z-10">
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">OpenAI</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">Anthropic</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">LangChain</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">Pinecone</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">LlamaIndex</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">Cohere</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">HuggingFace</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">Weaviate</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">Milvus</span>
+                        <span class="px-3 py-1 rounded-full border border-white/[0.08] bg-white/[0.02] text-xs font-light text-white/60 hover:border-indigo-500/40 hover:text-white hover:bg-indigo-500/10 transition-colors cursor-default">Vercel AI SDK</span>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Platform Section -->
+    <section id="platform" class="py-24 px-6 relative bg-gradient-to-b from-transparent via-indigo-950/10 to-transparent border-y border-white/[0.02]">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            
+            <div>
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-semibold text-indigo-300 uppercase tracking-widest font-mono mb-6">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> How it works
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extralight tracking-tight mb-6 leading-tight">
+                    From raw prompt to<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-400">resolution in seconds</span>
+                </h2>
+                <p class="text-sm md:text-base font-light text-white/50 mb-12 max-w-lg">
+                    aicoffeechat collapses the gap between bad generation and prompt engineering. Our engine correlates, ranks, and routes every hallucination to the right dev automatically.
+                </p>
+
+                <div class="space-y-6 relative before:absolute before:inset-y-0 before:left-4 before:w-px before:bg-gradient-to-b before:from-indigo-500/0 before:via-indigo-500/20 before:to-indigo-500/0">
+                    <div class="flex gap-4 relative group">
+                        <div class="absolute left-4 top-0 w-px h-0 bg-gradient-to-b from-indigo-500 to-violet-500 transition-all duration-500 group-hover:h-full"></div>
+                        <div class="w-8 h-8 rounded-lg border border-white/10 bg-[#09090F] flex items-center justify-center font-mono text-[10px] text-white/50 group-hover:bg-indigo-500 group-hover:text-white group-hover:border-indigo-400 transition-colors shrink-0 z-10">01</div>
+                        <div>
+                            <h4 class="text-base font-normal tracking-tight mb-1 group-hover:text-indigo-300 transition-colors">Ingest conversations</h4>
+                            <p class="text-sm font-light text-white/50 mb-2">Send prompts, completions, and tool calls via our SDKs or OpenTelemetry. Minimal latency overhead.</p>
+                            <span class="px-2 py-0.5 rounded border border-white/10 text-[9px] font-mono text-white/40 opacity-0 group-hover:opacity-100 transition-opacity">OpenTelemetry native</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 relative group">
+                        <div class="absolute left-4 top-0 w-px h-0 bg-gradient-to-b from-indigo-500 to-violet-500 transition-all duration-500 group-hover:h-full"></div>
+                        <div class="w-8 h-8 rounded-lg border border-white/10 bg-[#09090F] flex items-center justify-center font-mono text-[10px] text-white/50 group-hover:bg-indigo-500 group-hover:text-white group-hover:border-indigo-400 transition-colors shrink-0 z-10">02</div>
+                        <div>
+                            <h4 class="text-base font-normal tracking-tight mb-1 group-hover:text-indigo-300 transition-colors">Evaluate semantics</h4>
+                            <p class="text-sm font-light text-white/50 mb-2">Our engine maps context relevance, sentiment, and toxicity — surfacing bad outputs instantly.</p>
+                            <span class="px-2 py-0.5 rounded border border-white/10 text-[9px] font-mono text-white/40 opacity-0 group-hover:opacity-100 transition-opacity">LLM-as-a-judge</span>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 relative group">
+                        <div class="absolute left-4 top-0 w-px h-0 bg-gradient-to-b from-indigo-500 to-violet-500 transition-all duration-500 group-hover:h-full"></div>
+                        <div class="w-8 h-8 rounded-lg border border-white/10 bg-[#09090F] flex items-center justify-center font-mono text-[10px] text-white/50 group-hover:bg-indigo-500 group-hover:text-white group-hover:border-indigo-400 transition-colors shrink-0 z-10">03</div>
+                        <div>
+                            <h4 class="text-base font-normal tracking-tight mb-1 group-hover:text-indigo-300 transition-colors">Alert intelligently</h4>
+                            <p class="text-sm font-light text-white/50 mb-2">AI-deduped alerts routed with full context — prompt history included. No noise.</p>
+                            <span class="px-2 py-0.5 rounded border border-white/10 text-[9px] font-mono text-white/40 opacity-0 group-hover:opacity-100 transition-opacity">Context aware</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Dashboard Mockup -->
+            <div class="relative perspective-[1200px]">
+                <div class="rounded-2xl border border-white/10 bg-black/40 backdrop-blur-2xl shadow-[30px_30px_80px_rgba(0,0,0,0.6),-1px_-1px_0_rgba(255,255,255,0.05)] transform rotate-y-[-4deg] rotate-x-[2deg] hover:rotate-y-0 hover:rotate-x-0 transition-transform duration-700 ease-out overflow-hidden relative">
+                    <!-- Top border gradient -->
+                    <div class="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-indigo-500/50 via-violet-500/20 to-transparent"></div>
+                    
+                    <!-- Topbar -->
+                    <div class="flex items-center gap-2 px-4 py-3 bg-white/[0.02] border-b border-white/[0.05]">
+                        <div class="w-2 h-2 rounded-full bg-red-500"></div>
+                        <div class="w-2 h-2 rounded-full bg-yellow-500"></div>
+                        <div class="w-2 h-2 rounded-full bg-green-500"></div>
+                        <span class="ml-2 text-[10px] font-mono text-white/40">aicoffeechat · main-agent</span>
+                        <div class="ml-auto flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]"></span>
+                            <span class="text-[10px] font-mono text-indigo-300">LIVE</span>
+                        </div>
+                    </div>
+
+                    <!-- Metrics -->
+                    <div class="grid grid-cols-3 gap-px bg-white/[0.05]">
+                        <div class="bg-black/60 p-4">
+                            <div class="text-lg font-bold tracking-tight text-transparent bg-clip-text bg-gradient-to-r from-indigo-200 to-violet-300">42ms</div>
+                            <div class="text-[9px] font-mono text-white/40 uppercase tracking-widest mt-1">Avg TTFT</div>
+                        </div>
+                        <div class="bg-black/60 p-4">
+                            <div class="text-lg font-bold tracking-tight text-green-400">99.2%</div>
+                            <div class="text-[9px] font-mono text-white/40 uppercase tracking-widest mt-1">Relevance Score</div>
+                        </div>
+                        <div class="bg-black/60 p-4">
+                            <div class="text-lg font-bold tracking-tight text-indigo-300">12</div>
+                            <div class="text-[9px] font-mono text-white/40 uppercase tracking-widest mt-1">Open Issues</div>
+                        </div>
+                    </div>
+
+                    <!-- Chart area -->
+                    <div class="p-4 border-b border-white/[0.05]">
+                        <div class="text-[9px] font-mono text-white/30 uppercase tracking-widest mb-3">Token volume · 24h</div>
+                        <div class="flex items-end gap-1 h-16">
+                            <!-- Arbitrary bars for visual -->
+                            <div class="flex-1 bg-gradient-to-t from-indigo-500/40 to-indigo-500/10 rounded-t-[2px] h-[40%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-violet-500/30 to-violet-500/10 rounded-t-[2px] h-[60%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-indigo-500/40 to-indigo-500/10 rounded-t-[2px] h-[75%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-violet-500/30 to-violet-500/10 rounded-t-[2px] h-[50%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-indigo-500/40 to-indigo-500/10 rounded-t-[2px] h-[80%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-violet-500/30 to-violet-500/10 rounded-t-[2px] h-[65%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-indigo-500/40 to-indigo-500/10 rounded-t-[2px] h-[90%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-violet-500/30 to-violet-500/10 rounded-t-[2px] h-[55%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-indigo-500/40 to-indigo-500/10 rounded-t-[2px] h-[70%]"></div>
+                            <div class="flex-1 bg-gradient-to-t from-violet-500/30 to-violet-500/10 rounded-t-[2px] h-[45%]"></div>
+                        </div>
+                    </div>
+
+                    <!-- Alerts -->
+                    <div class="p-4 space-y-2">
+                        <div class="text-[9px] font-mono text-white/30 uppercase tracking-widest mb-2">Recent Insights</div>
+                        <div class="flex items-center gap-2 p-2 rounded-md bg-white/[0.02] border border-white/[0.04]">
+                            <div class="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0"></div>
+                            <span class="text-[11px] text-white/60 truncate">gpt-4o · latency normalized</span>
+                            <span class="text-[9px] font-mono text-white/40 ml-auto">2m ago</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2 rounded-md bg-white/[0.02] border border-white/[0.04]">
+                            <div class="w-1.5 h-1.5 rounded-full bg-yellow-500 shrink-0"></div>
+                            <span class="text-[11px] text-white/60 truncate">pinecone · index sync delayed</span>
+                            <span class="text-[9px] font-mono text-white/40 ml-auto">8m ago</span>
+                        </div>
+                        <div class="flex items-center gap-2 p-2 rounded-md bg-white/[0.02] border border-white/[0.04]">
+                            <div class="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0"></div>
+                            <span class="text-[11px] text-white/60 truncate">sales-bot · off-topic generation detected</span>
+                            <span class="text-[9px] font-mono text-white/40 ml-auto">14m ago</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Metrics Strip -->
+    <section class="py-16 px-6">
+        <div class="max-w-6xl mx-auto rounded-3xl border border-white/10 bg-white/[0.02] overflow-hidden p-px">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/10 rounded-[23px] overflow-hidden">
+                <div class="bg-[#09090F] p-8 group relative overflow-hidden">
+                    <div class="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
+                    <div class="text-4xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300 mb-2 leading-none">850B+</div>
+                    <div class="text-sm text-white/60 font-light mb-1">Tokens processed</div>
+                    <div class="text-[10px] font-mono text-white/30">across all customer apps</div>
+                </div>
+                <div class="bg-[#09090F] p-8 group relative overflow-hidden">
+                    <div class="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
+                    <div class="text-4xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300 mb-2 leading-none">12ms</div>
+                    <div class="text-sm text-white/60 font-light mb-1">Avg evaluation time</div>
+                    <div class="text-[10px] font-mono text-white/30">from response to score</div>
+                </div>
+                <div class="bg-[#09090F] p-8 group relative overflow-hidden">
+                    <div class="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
+                    <div class="text-4xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300 mb-2 leading-none">99.9%</div>
+                    <div class="text-sm text-white/60 font-light mb-1">Platform availability</div>
+                    <div class="text-[10px] font-mono text-white/30">12-month rolling average</div>
+                </div>
+                <div class="bg-[#09090F] p-8 group relative overflow-hidden">
+                    <div class="absolute bottom-0 inset-x-0 h-0.5 bg-gradient-to-r from-transparent via-indigo-500/50 to-transparent scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500"></div>
+                    <div class="text-4xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300 mb-2 leading-none">12K+</div>
+                    <div class="text-sm text-white/60 font-light mb-1">AI Devs on platform</div>
+                    <div class="text-[10px] font-mono text-white/30">at 2,400+ companies</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="pricing" class="py-24 px-6 relative bg-gradient-to-b from-transparent via-[#0C0C19]/40 to-transparent">
+        <div class="absolute inset-0 z-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_30%,rgba(99,102,241,0.05)_0%,transparent_70%)] pointer-events-none"></div>
+        <div class="max-w-5xl mx-auto relative z-10">
+            <div class="text-center mb-12">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-semibold text-indigo-300 uppercase tracking-widest font-mono mb-6">
+                    <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> Pricing
+                </div>
+                <h2 class="text-3xl md:text-4xl font-extralight tracking-tight mb-4">
+                    Transparent, <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-400">usage-based</span> pricing
+                </h2>
+                <p class="text-sm md:text-base font-light text-white/50 max-w-lg mx-auto mb-8">
+                    No surprises. Pay for the tokens you trace. Scale from prototype to production on the same platform.
+                </p>
+
+                <!-- Custom Toggle -->
+                <div class="flex items-center justify-center gap-4 text-sm font-light text-white/60">
+                    <span>Monthly</span>
+                    <label class="relative inline-flex items-center cursor-pointer">
+                        <input type="checkbox" value="" class="sr-only peer" checked>
+                        <div class="w-11 h-6 bg-white/[0.05] peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white/80 after:border-white/10 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-indigo-500/40 border border-white/10"></div>
+                    </label>
+                    <span class="flex items-center gap-2">Annual <span class="px-2 py-0.5 rounded-full bg-indigo-500/20 text-[10px] font-semibold text-indigo-300 tracking-wide uppercase">Save 20%</span></span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-start">
+                <!-- Starter -->
+                <div class="p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.08] backdrop-blur-xl relative">
+                    <div class="text-xl font-light tracking-tight mb-1">Starter</div>
+                    <div class="text-sm font-light text-white/50 mb-6 min-h-[40px]">For indie devs and small agents getting started.</div>
+                    <div class="flex items-baseline gap-1 mb-8">
+                        <span class="text-4xl font-extralight tracking-tight">$0</span>
+                        <span class="text-sm text-white/50 font-light">/ month</span>
+                    </div>
+                    <div class="h-px w-full bg-white/[0.05] mb-6"></div>
+                    <div class="space-y-4 mb-8 text-sm font-light text-white/60">
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            10M tokens traced / month
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            2 projects
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            7-day retention
+                        </div>
+                        <div class="flex items-start gap-3 text-white/30">
+                            <iconify-icon icon="solar:close-circle-linear" class="text-white/20 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            Semantic anomaly detection
+                        </div>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-white/[0.02] border border-white/10 hover:bg-white/[0.05] hover:border-white/20 transition-colors text-sm font-light">Get started free</button>
+                </div>
+
+                <!-- Pro -->
+                <div class="p-8 rounded-[2rem] bg-gradient-to-b from-indigo-500/[0.12] to-black border border-indigo-500/30 backdrop-blur-xl relative md:-mt-4 shadow-[0_20px_40px_-20px_rgba(99,102,241,0.2)]">
+                    <div class="absolute inset-x-6 top-0 h-0.5 bg-gradient-to-r from-transparent via-violet-400 to-transparent"></div>
+                    <div class="inline-flex px-3 py-1 rounded-full bg-gradient-to-r from-indigo-500 to-violet-500 text-[10px] font-semibold text-white uppercase tracking-widest mb-4 shadow-[0_0_15px_rgba(99,102,241,0.4)]">Most Popular</div>
+                    <div class="text-xl font-light tracking-tight mb-1">Pro</div>
+                    <div class="text-sm font-light text-white/50 mb-6 min-h-[40px]">For teams building production LLM applications.</div>
+                    <div class="flex items-baseline gap-1 mb-8">
+                        <span class="text-4xl font-extralight tracking-tight text-transparent bg-clip-text bg-gradient-to-br from-indigo-200 to-violet-300">$89</span>
+                        <span class="text-sm text-white/50 font-light">/ seat / mo</span>
+                    </div>
+                    <div class="h-px w-full bg-indigo-500/20 mb-6"></div>
+                    <div class="space-y-4 mb-8 text-sm font-light text-white/80">
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            Unlimited token tracing
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            Unlimited projects
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            90-day retention
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            Semantic anomaly AI
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            Predictive rate alerts
+                        </div>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-gradient-to-br from-indigo-500 to-violet-600 text-white font-light shadow-[0_10px_20px_rgba(99,102,241,0.3)] hover:shadow-[0_15px_30px_rgba(99,102,241,0.5)] hover:-translate-y-px transition-all">Start Pro trial</button>
+                </div>
+
+                <!-- Enterprise -->
+                <div class="p-8 rounded-[2rem] bg-white/[0.02] border border-white/[0.08] backdrop-blur-xl relative">
+                    <div class="text-xl font-light tracking-tight mb-1">Enterprise</div>
+                    <div class="text-sm font-light text-white/50 mb-6 min-h-[40px]">Custom infrastructure and strict compliance.</div>
+                    <div class="flex items-baseline gap-1 mb-8">
+                        <span class="text-4xl font-extralight tracking-tight">Custom</span>
+                    </div>
+                    <div class="h-px w-full bg-white/[0.05] mb-6"></div>
+                    <div class="space-y-4 mb-8 text-sm font-light text-white/60">
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            Everything in Pro
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            Dedicated infra (VPC)
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            SOC2 / HIPAA compliance
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <iconify-icon icon="solar:check-circle-linear" class="text-indigo-400 text-lg shrink-0 mt-0.5" style="stroke-width: 1.5;"></iconify-icon>
+                            Custom SLA
+                        </div>
+                    </div>
+                    <button class="w-full py-3 rounded-xl bg-white/[0.02] border border-white/10 hover:bg-white/[0.05] hover:border-white/20 transition-colors text-sm font-light">Talk to sales</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <section class="py-24 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-6 mb-12 text-center">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs font-semibold text-indigo-300 uppercase tracking-widest font-mono mb-6">
+                <span class="w-1.5 h-1.5 rounded-full bg-indigo-500"></span> What teams say
+            </div>
+            <h2 class="text-3xl md:text-4xl font-extralight tracking-tight mb-4">
+                Trusted by <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-400">AI engineers</span><br>at 2,400+ companies
+            </h2>
+        </div>
+
+        <div class="relative flex overflow-x-auto snap-x snap-mandatory gap-6 pb-8 px-6 md:px-24 scrollbar-hide" style="scrollbar-width: none; -ms-overflow-style: none;">
+            <!-- Left/Right Fade Masks -->
+            <div class="fixed inset-y-0 left-0 w-12 md:w-32 bg-gradient-to-r from-[#09090F] to-transparent z-10 pointer-events-none"></div>
+            <div class="fixed inset-y-0 right-0 w-12 md:w-32 bg-gradient-to-l from-[#09090F] to-transparent z-10 pointer-events-none"></div>
+
+            <!-- Cards -->
+            <div class="snap-center shrink-0 w-[300px] md:w-[340px] p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.08] backdrop-blur-md flex flex-col hover:border-indigo-500/30 transition-colors">
+                <div class="flex gap-1 mb-4 text-yellow-500 text-sm">
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                </div>
+                <p class="text-sm font-light text-white/60 leading-relaxed mb-8 flex-1">"aicoffeechat cut our time resolving bad generations from hours to minutes. The semantic evaluator is genuinely magic — it spots context drops we'd never catch in logs."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 p-[1px]">
+                        <img src="https://i.pravatar.cc/150?img=32" alt="User" class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <div>
+                        <div class="text-sm font-normal">Sarah L.</div>
+                        <div class="text-[10px] text-white/40">Staff AI Eng · FinTech Co</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="snap-center shrink-0 w-[300px] md:w-[340px] p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.08] backdrop-blur-md flex flex-col hover:border-indigo-500/30 transition-colors">
+                <div class="flex gap-1 mb-4 text-yellow-500 text-sm">
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                </div>
+                <p class="text-sm font-light text-white/60 leading-relaxed mb-8 flex-1">"We migrated our agent observability in a weekend. Same coverage, 60% less cost, and the UX is miles ahead. Tracing RAG pipelines is actually fun now."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 p-[1px]">
+                        <img src="https://i.pravatar.cc/150?img=11" alt="User" class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <div>
+                        <div class="text-sm font-normal">Marcus R.</div>
+                        <div class="text-[10px] text-white/40">Platform Lead · Startup</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="snap-center shrink-0 w-[300px] md:w-[340px] p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.08] backdrop-blur-md flex flex-col hover:border-indigo-500/30 transition-colors">
+                <div class="flex gap-1 mb-4 text-yellow-500 text-sm">
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                </div>
+                <p class="text-sm font-light text-white/60 leading-relaxed mb-8 flex-1">"The predictive rate limit alerts gave us a 20-minute heads-up before our OpenAI tier capped out during a launch. We swapped to anthropic seamlessly."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 p-[1px]">
+                        <img src="https://i.pravatar.cc/150?img=44" alt="User" class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <div>
+                        <div class="text-sm font-normal">Anika K.</div>
+                        <div class="text-[10px] text-white/40">VP Engineering · ScaleApp</div>
+                    </div>
+                </div>
+            </div>
+             <div class="snap-center shrink-0 w-[300px] md:w-[340px] p-8 rounded-[2rem] bg-gradient-to-br from-white/[0.03] to-transparent border border-white/[0.08] backdrop-blur-md flex flex-col hover:border-indigo-500/30 transition-colors">
+                <div class="flex gap-1 mb-4 text-yellow-500 text-sm">
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                    <iconify-icon icon="solar:star-bold" style="stroke-width: 1.5;"></iconify-icon>
+                </div>
+                <p class="text-sm font-light text-white/60 leading-relaxed mb-8 flex-1">"I've evaluated every LLM observability tool. aicoffeechat is the first one that feels like it was built by engineers who actually ship AI products."</p>
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-violet-500 p-[1px]">
+                        <img src="https://i.pravatar.cc/150?img=60" alt="User" class="w-full h-full rounded-full object-cover">
+                    </div>
+                    <div>
+                        <div class="text-sm font-normal">James P.</div>
+                        <div class="text-[10px] text-white/40">Founding Engineer</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <style>
+            /* Hack to hide scrollbar cross-browser if needed, though inline style above helps */
+            .scrollbar-hide::-webkit-scrollbar { display: none; }
+        </style>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-24 px-6">
+        <div class="max-w-4xl mx-auto rounded-[2rem] bg-gradient-to-b from-indigo-500/[0.08] to-transparent border border-indigo-500/20 p-12 md:p-20 text-center relative overflow-hidden backdrop-blur-xl">
+            <!-- Decorative Rings -->
+            <div class="absolute top-0 right-0 w-64 h-64 border border-indigo-500/10 rounded-full -translate-y-1/2 translate-x-1/2"></div>
+            <div class="absolute bottom-0 left-0 w-48 h-48 border border-indigo-500/10 rounded-full translate-y-1/2 -translate-x-1/2"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-3xl md:text-5xl font-extralight tracking-tight mb-6 leading-tight">
+                    Your agents are talking.<br>
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-300 to-violet-400">Start listening.</span>
+                </h2>
+                <p class="text-base font-light text-white/50 mb-10 max-w-md mx-auto">
+                    Start free in minutes. No credit card. Just drop in our 2-line SDK and gain clarity.
+                </p>
+                <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                    <button class="w-full sm:w-auto flex items-center justify-center gap-2 bg-gradient-to-br from-indigo-500 to-violet-600 text-white px-8 py-4 rounded-full text-sm font-light shadow-[0_0_20px_rgba(99,102,241,0.3)] hover:shadow-[0_0_30px_rgba(99,102,241,0.5)] transition-all hover:-translate-y-px">
+                        Start for free
+                        <iconify-icon icon="solar:arrow-right-linear" style="stroke-width: 1.5;"></iconify-icon>
+                    </button>
+                    <button class="w-full sm:w-auto px-8 py-4 rounded-full bg-white/[0.05] border border-white/10 text-white hover:bg-white/[0.08] transition-colors text-sm font-light">
+                        Book a demo
+                    </button>
+                </div>
+                <div class="text-[11px] font-mono text-white/30 mt-6">Free 14-day Pro trial included · No credit card required</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 border-t border-white/[0.05] relative">
+        <div class="absolute inset-x-10 top-0 h-px bg-gradient-to-r from-transparent via-indigo-500/30 to-transparent"></div>
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-12 mb-16">
+                <div class="lg:col-span-2">
+                    <div class="flex items-center gap-2 font-medium tracking-tight text-lg mb-4">
+                        <div class="w-5 h-5 rounded-md bg-gradient-to-tr from-indigo-500 to-violet-400 flex items-center justify-center">
+                            <iconify-icon icon="solar:cup-hot-linear" class="text-white text-[10px]" style="stroke-width: 1.5;"></iconify-icon>
+                        </div>
+                        aicoffeechat
+                    </div>
+                    <p class="text-sm font-light text-white/50 max-w-xs mb-6 leading-relaxed">
+                        Full-stack observability for the developers building the next generation of conversational AI.
+                    </p>
+                    <div class="flex gap-3">
+                        <a href="#" class="w-8 h-8 rounded-lg bg-white/[0.02] border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors">
+                            <iconify-icon icon="solar:github-linear" style="stroke-width: 1.5;"></iconify-icon>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-lg bg-white/[0.02] border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors">
+                            <iconify-icon icon="solar:twitter-linear" style="stroke-width: 1.5;"></iconify-icon>
+                        </a>
+                        <a href="#" class="w-8 h-8 rounded-lg bg-white/[0.02] border border-white/[0.05] flex items-center justify-center text-white/40 hover:text-white hover:bg-white/10 transition-colors">
+                            <iconify-icon icon="solar:discord-linear" style="stroke-width: 1.5;"></iconify-icon>
+                        </a>
+                    </div>
+                </div>
+                
+                <div>
+                    <h4 class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-6 font-mono">Product</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Features</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Integrations</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Changelog</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Roadmap</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Status</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-6 font-mono">Company</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">About</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Press</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="text-xs font-semibold uppercase tracking-widest text-white/30 mb-6 font-mono">Developers</h4>
+                    <ul class="space-y-3">
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">API Reference</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">SDKs</a></li>
+                        <li><a href="#" class="text-sm font-light text-white/50 hover:text-white transition-colors">Community</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="pt-8 border-t border-white/[0.05] flex flex-col md:flex-row items-center justify-between gap-4">
+                <div class="text-xs font-mono text-white/30">© 2024 aicoffeechat, Inc. All rights reserved.</div>
+                <div class="flex items-center gap-2 text-xs font-light text-white/50">
+                    <span class="w-1.5 h-1.5 rounded-full bg-green-500 shadow-[0_0_8px_rgba(34,197,94,0.5)]"></span>
+                    All systems operational
+                </div>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
