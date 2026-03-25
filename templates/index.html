@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Signal Finder — AI 시장 시그널 분석</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pretendard:wght@300;400;500;600;700&display=swap">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --primary: #6366f1; --primary-dark: #4f46e5; --primary-light: #eef2ff;
+      --gray-50: #f9fafb; --gray-100: #f3f4f6; --gray-200: #e5e7eb;
+      --gray-300: #d1d5db; --gray-400: #9ca3af; --gray-500: #6b7280;
+      --gray-600: #4b5563; --gray-800: #1f2937; --gray-900: #111827;
+      --success: #10b981; --danger: #ef4444; --warning: #f59e0b;
+    }
+    body { font-family: 'Pretendard', -apple-system, sans-serif; background: var(--gray-50); color: var(--gray-900); min-height: 100vh; }
+
+    /* ── 헤더 ── */
+    .site-header {
+      background: #fff; border-bottom: 1px solid var(--gray-200);
+      padding: 0 24px; height: 54px;
+      display: flex; align-items: center; justify-content: space-between;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .logo { display: flex; align-items: center; gap: 8px; text-decoration: none; }
+    .logo-badge { background: var(--primary); color: #fff; font-size: 11px; font-weight: 800; letter-spacing: .1em; padding: 3px 8px; border-radius: 4px; }
+    .logo-text { font-size: 14px; font-weight: 600; color: var(--gray-800); }
+    .header-right { display: flex; align-items: center; gap: 12px; font-size: 12px; }
+    .connected-badge { color: var(--success); font-weight: 600; }
+    .login-btn { font-size: 13px; font-weight: 600; color: var(--primary); text-decoration: none; padding: 5px 12px; border: 1px solid #c7d2fe; border-radius: 8px; background: var(--primary-light); }
+
+    /* ── 레이아웃 ── */
+    .layout { display: flex; min-height: calc(100vh - 54px); }
+
+    /* ── 사이드바 ── */
+    .sidebar {
+      width: 240px; flex-shrink: 0;
+      background: #fff; border-right: 1px solid var(--gray-200);
+      padding: 16px 0; overflow-y: auto;
+    }
+    .sidebar-title { font-size: 11px; font-weight: 700; letter-spacing: .08em; color: var(--gray-400); text-transform: uppercase; padding: 0 16px 10px; }
+    .report-item {
+      display: flex; flex-direction: column; gap: 2px;
+      padding: 10px 16px; cursor: pointer; border-left: 3px solid transparent;
+      transition: background .15s, border-color .15s;
+    }
+    .report-item:hover { background: var(--gray-50); }
+    .report-item.active { background: var(--primary-light); border-left-color: var(--primary); }
+    .report-item-kw { font-size: 13px; font-weight: 600; color: var(--gray-800); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .report-item.active .report-item-kw { color: var(--primary); }
+    .report-item-date { font-size: 11px; color: var(--gray-400); }
+    .sidebar-empty { padding: 24px 16px; font-size: 13px; color: var(--gray-400); text-align: center; line-height: 1.7; }
+
+    /* ── 메인 ── */
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+
+    /* ── 히어로 ── */
+    .hero { padding: 44px 32px 32px; text-align: center; transition: padding .4s; }
+    .hero.compact { padding: 20px 32px 16px; }
+    .hero-title { font-size: 28px; font-weight: 700; letter-spacing: -.03em; margin-bottom: 8px; }
+    .hero.compact .hero-title { font-size: 18px; }
+    .hero-title span { color: var(--primary); }
+    .hero-desc { font-size: 14px; color: var(--gray-500); margin-bottom: 28px; line-height: 1.7; }
+    .hero.compact .hero-desc { display: none; }
+
+    /* ── 검색 폼 ── */
+    .search-wrap { max-width: 600px; margin: 0 auto; display: flex; gap: 8px; }
+    .search-input-group {
+      flex: 1; display: flex; align-items: center;
+      background: #fff; border: 2px solid var(--gray-200); border-radius: 12px;
+      padding: 0 14px; gap: 8px; transition: border-color .2s;
+    }
+    .search-input-group:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(99,102,241,.1); }
+    .search-icon { color: var(--gray-400); font-size: 16px; }
+    .search-input { flex: 1; border: none; outline: none; font-family: inherit; font-size: 15px; padding: 13px 0; background: transparent; color: var(--gray-900); }
+    .search-input::placeholder { color: var(--gray-400); }
+    .country-select { border: none; outline: none; font-family: inherit; font-size: 13px; color: var(--gray-500); background: transparent; cursor: pointer; }
+    .btn-analyze { background: var(--primary); color: #fff; border: none; border-radius: 12px; padding: 0 22px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; height: 50px; white-space: nowrap; transition: background .2s; text-decoration: none; display: flex; align-items: center; }
+    .btn-analyze:hover { background: var(--primary-dark); }
+    .btn-analyze:disabled { background: var(--gray-300); cursor: not-allowed; }
+
+    /* ── 콘텐츠 영역 ── */
+    .content { padding: 0 32px 48px; flex: 1; }
+
+    /* ── 대기 카드 ── */
+    .waiting-card {
+      max-width: 600px; margin: 0 auto;
+      background: #fff; border: 1px solid var(--gray-200); border-radius: 16px;
+      padding: 28px 32px; display: none; text-align: center;
+    }
+    .waiting-card.visible { display: block; }
+    .waiting-icon { font-size: 32px; margin-bottom: 12px; }
+    .waiting-title { font-size: 16px; font-weight: 700; color: var(--gray-900); margin-bottom: 8px; }
+    .waiting-desc { font-size: 13px; color: var(--gray-500); line-height: 1.7; margin-bottom: 20px; }
+
+    .chat-hint {
+      background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 10px;
+      padding: 14px 18px; display: flex; align-items: center; gap: 12px; text-align: left;
+    }
+    .chat-hint-label { font-size: 11px; font-weight: 700; color: var(--gray-400); text-transform: uppercase; letter-spacing: .06em; margin-bottom: 4px; }
+    .chat-hint-cmd { font-size: 15px; font-weight: 700; color: var(--primary); }
+    .copy-btn { margin-left: auto; background: var(--primary-light); border: none; color: var(--primary); font-size: 12px; font-weight: 600; padding: 6px 12px; border-radius: 6px; cursor: pointer; white-space: nowrap; }
+    .copy-btn:hover { background: #c7d2fe; }
+
+    .pulse-row { display: flex; align-items: center; gap: 8px; justify-content: center; margin-top: 16px; color: var(--gray-400); font-size: 12px; }
+    .pulse-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--warning); animation: pulse 1.4s ease-in-out infinite; }
+    @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+
+    /* ── 에러 카드 ── */
+    .error-card { max-width: 600px; margin: 0 auto; background: #fef2f2; border: 1px solid #fecaca; border-radius: 12px; padding: 16px 20px; display: none; color: var(--danger); font-size: 14px; }
+    .error-card.visible { display: block; }
+
+    /* ── 리포트 영역 ── */
+    .report-section { display: none; animation: fadeUp .5s ease; }
+    .report-section.visible { display: block; }
+    @keyframes fadeUp { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:translateY(0)} }
+
+    .report-toolbar { display: flex; align-items: center; justify-content: space-between; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .report-label { font-size: 12px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--gray-400); }
+    .toolbar-btns { display: flex; gap: 8px; }
+    .btn-icon { display: flex; align-items: center; gap: 5px; background: #fff; border: 1px solid var(--gray-200); border-radius: 8px; padding: 6px 12px; font-family: inherit; font-size: 13px; color: var(--gray-600); cursor: pointer; text-decoration: none; transition: background .15s; }
+    .btn-icon:hover { background: var(--gray-50); }
+
+    .report-frame-wrap { background: #fff; border: 1px solid var(--gray-200); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 20px rgba(0,0,0,.06); }
+    #report-iframe { width: 100%; border: none; display: block; min-height: 600px; }
+
+    /* ── 빈 상태 ── */
+    .empty-state { padding: 64px 0; text-align: center; color: var(--gray-400); }
+    .empty-icon { font-size: 36px; margin-bottom: 10px; }
+    .empty-title { font-size: 15px; font-weight: 600; color: var(--gray-600); margin-bottom: 6px; }
+    .empty-desc { font-size: 13px; line-height: 1.7; }
+  </style>
+</head>
+<body>
+
+<header class="site-header">
+  <a href="/" class="logo">
+    <span class="logo-badge">SIGNAL FINDER</span>
+    <span class="logo-text">시장 시그널 분석</span>
+  </a>
+  <div class="header-right">
+    <span style="color:var(--gray-400);">Powered by Listening Mind &amp; Claude AI</span>
+    {% if authenticated %}
+      <span class="connected-badge">● 연결됨</span>
+    {% else %}
+      <a href="/oauth/login" class="login-btn">Listening Mind 로그인</a>
+    {% endif %}
+  </div>
+</header>
+
+<div class="layout">
+
+  <!-- ── 사이드바: 과거 리포트 ── -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-title">분석 히스토리</div>
+    {% if reports %}
+      {% for r in reports %}
+      <div class="report-item" onclick="loadReport('{{ r.url }}', '{{ r.keyword }}', this)">
+        <div class="report-item-kw">{{ r.keyword }}</div>
+        <div class="report-item-date">{{ r.date }}</div>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="sidebar-empty">아직 분석한<br>리포트가 없습니다</div>
+    {% endif %}
+  </aside>
+
+  <!-- ── 메인 ── -->
+  <div class="main">
+
+    <!-- 히어로 + 검색 -->
+    <section class="hero" id="hero">
+      <h1 class="hero-title">소비자가 <span>지금</span> 무엇을 찾는지<br>AI가 시그널로 포착합니다</h1>
+      <p class="hero-desc">키워드 하나를 입력하면 검색 데이터 속 시장 흐름을<br>인터랙티브 리포트로 자동 생성합니다.</p>
+      <div class="search-wrap">
+        <div class="search-input-group">
+          <span class="search-icon">🔍</span>
+          <input type="text" class="search-input" id="keyword-input"
+            placeholder="키워드 입력  (예: 뷰티 디바이스, 모니터, 프로틴)"
+            autocomplete="off">
+          <select class="country-select" id="country-select">
+            <option value="kr">🇰🇷 KR</option>
+            <option value="us">🇺🇸 US</option>
+            <option value="jp">🇯🇵 JP</option>
+          </select>
+        </div>
+        {% if authenticated %}
+        <button class="btn-analyze" id="btn-analyze">분석 시작</button>
+        {% else %}
+        <a href="/oauth/login" class="btn-analyze">로그인 후 분석</a>
+        {% endif %}
+      </div>
+    </section>
+
+    <div class="content">
+
+      <!-- 빈 상태 -->
+      <div class="empty-state" id="empty-state">
+        <div class="empty-icon">✦</div>
+        <div class="empty-title">분석하고 싶은 키워드를 입력하세요</div>
+        <div class="empty-desc">키워드를 입력하고 분석 시작을 누르면<br>Claude AI가 시장 시그널을 분석합니다</div>
+      </div>
+
+      <!-- 대기 카드 -->
+      <div class="waiting-card" id="waiting-card">
+        <div class="waiting-icon">🤖</div>
+        <div class="waiting-title" id="waiting-title">Claude AI에게 분석을 요청해주세요</div>
+        <div class="waiting-desc">
+          아래 명령어를 복사해서 <strong>이 화면 옆의 Claude Code 채팅창</strong>에 붙여넣어 주세요.<br>
+          분석이 완료되면 리포트가 자동으로 나타납니다.
+        </div>
+        <div class="chat-hint">
+          <div>
+            <div class="chat-hint-label">Claude Code 채팅에 입력</div>
+            <div class="chat-hint-cmd" id="hint-cmd"></div>
+          </div>
+          <button class="copy-btn" onclick="copyCmd()">복사</button>
+        </div>
+        <div class="pulse-row">
+          <div class="pulse-dot"></div>
+          리포트 생성 대기 중 (최대 10분)
+        </div>
+      </div>
+
+      <!-- 에러 -->
+      <div class="error-card" id="error-card">
+        <strong>오류</strong> — <span id="error-msg"></span>
+      </div>
+
+      <!-- 리포트 -->
+      <div class="report-section" id="report-section">
+        <div class="report-toolbar">
+          <span class="report-label" id="report-label">리포트</span>
+          <div class="toolbar-btns">
+            <a class="btn-icon" id="btn-newtab" href="#" target="_blank">↗ 새 탭</a>
+            <a class="btn-icon" id="btn-download" href="#" download>⬇ 다운로드</a>
+          </div>
+        </div>
+        <div class="report-frame-wrap">
+          <iframe id="report-iframe" src="" onload="autoHeight(this)"></iframe>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+const hero         = document.getElementById('hero');
+const emptyState   = document.getElementById('empty-state');
+const waitingCard  = document.getElementById('waiting-card');
+const waitingTitle = document.getElementById('waiting-title');
+const hintCmd      = document.getElementById('hint-cmd');
+const errorCard    = document.getElementById('error-card');
+const errorMsg     = document.getElementById('error-msg');
+const reportSection= document.getElementById('report-section');
+const reportIframe = document.getElementById('report-iframe');
+const reportLabel  = document.getElementById('report-label');
+const btnNewTab    = document.getElementById('btn-newtab');
+const btnDownload  = document.getElementById('btn-download');
+const btnAnalyze   = document.getElementById('btn-analyze');
+const keywordInput = document.getElementById('keyword-input');
+
+let currentEs = null;
+let currentCmd = '';
+
+if (keywordInput) {
+  keywordInput.addEventListener('keydown', e => { if (e.key === 'Enter') startAnalysis(); });
+}
+if (btnAnalyze) {
+  btnAnalyze.addEventListener('click', startAnalysis);
+}
+
+function startAnalysis() {
+  const keyword = keywordInput.value.trim();
+  if (!keyword) { keywordInput.focus(); return; }
+  if (currentEs) { currentEs.close(); currentEs = null; }
+
+  const country = document.getElementById('country-select').value;
+
+  hero.classList.add('compact');
+  emptyState.style.display = 'none';
+  reportSection.classList.remove('visible');
+  errorCard.classList.remove('visible');
+  waitingCard.classList.add('visible');
+
+  waitingTitle.textContent = `'${keyword}' 분석 요청`;
+  currentCmd = `${keyword} 분석해줘`;
+  hintCmd.textContent = currentCmd;
+
+  const url = `/api/analyze?keyword=${encodeURIComponent(keyword)}&country=${country}`;
+  currentEs = new EventSource(url);
+
+  currentEs.onmessage = e => {
+    try {
+      const data = JSON.parse(e.data);
+      if (data.type === 'done') {
+        currentEs.close(); currentEs = null;
+        onDone(data.report_url, data.keyword);
+      } else if (data.type === 'timeout') {
+        onError(data.msg);
+      } else if (data.type === 'error') {
+        onError(data.msg);
+      }
+    } catch {}
+  };
+  currentEs.onerror = () => onError('연결이 끊어졌습니다. 다시 시도해주세요.');
+}
+
+function onDone(reportUrl, keyword) {
+  waitingCard.classList.remove('visible');
+
+  reportLabel.textContent = `'${keyword}' 시장 시그널 리포트`;
+  btnNewTab.href = reportUrl;
+  btnDownload.href = reportUrl;
+  btnDownload.download = reportUrl.split('/').pop();
+  reportIframe.src = reportUrl;
+  reportSection.classList.add('visible');
+  reportSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // 사이드바 갱신
+  refreshSidebar();
+}
+
+function onError(msg) {
+  if (currentEs) { currentEs.close(); currentEs = null; }
+  waitingCard.classList.remove('visible');
+  errorMsg.textContent = msg;
+  errorCard.classList.add('visible');
+}
+
+function copyCmd() {
+  navigator.clipboard.writeText(currentCmd).then(() => {
+    const btn = document.querySelector('.copy-btn');
+    btn.textContent = '✓ 복사됨';
+    setTimeout(() => { btn.textContent = '복사'; }, 2000);
+  });
+}
+
+function loadReport(url, keyword, el) {
+  document.querySelectorAll('.report-item').forEach(i => i.classList.remove('active'));
+  if (el) el.classList.add('active');
+  hero.classList.add('compact');
+  emptyState.style.display = 'none';
+  waitingCard.classList.remove('visible');
+  reportLabel.textContent = `'${keyword}' 시장 시그널 리포트`;
+  btnNewTab.href = url;
+  btnDownload.href = url;
+  btnDownload.download = url.split('/').pop();
+  reportIframe.src = url;
+  reportSection.classList.add('visible');
+}
+
+function refreshSidebar() {
+  fetch('/api/reports').then(r => r.json()).then(reports => {
+    const sidebar = document.getElementById('sidebar');
+    const title = sidebar.querySelector('.sidebar-title').outerHTML;
+    if (!reports.length) return;
+    sidebar.innerHTML = title + reports.map(r =>
+      `<div class="report-item" onclick="loadReport('${r.url}','${r.keyword}',this)">
+        <div class="report-item-kw">${r.keyword}</div>
+        <div class="report-item-date">${r.date}</div>
+      </div>`
+    ).join('');
+  });
+}
+
+function autoHeight(iframe) {
+  try {
+    iframe.style.height = (iframe.contentDocument.body.scrollHeight + 40) + 'px';
+  } catch { iframe.style.height = '900px'; }
+}
+</script>
+</body>
+</html>
